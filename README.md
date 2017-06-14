@@ -1,4 +1,4 @@
-#whatsit
+# whatsit
 
 **An open-source recipe-saving application for macOS.**
 
