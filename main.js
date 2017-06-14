@@ -6,6 +6,7 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
+const Tesseract = require('tesseract.js')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -21,6 +22,23 @@ function createWindow () {
     protocol: 'file:',
     slashes: true
   }))
+  
+  // create dialog box to pick image (A)
+  const dialog = require('electron').dialog;
+  console.log("hello!");
+  var myImage = dialog.showOpenDialog({ properties: [ 'openFile', 'openDirectory', 'multiSelections' ]});
+  console.log(myImage[0]);
+  
+  // run Tesseract on image path (A)
+
+
+  Tesseract.recognize(myImage[0], {
+    lang: 'eng'})
+  .progress(function (p) { console.log('progress', p) })
+  .catch(function (c) { console.error('error', c)})
+  .then(function(result){
+    console.log(result['text'])
+  })
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -58,3 +76,5 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+
